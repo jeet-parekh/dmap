@@ -1,6 +1,7 @@
 package dmap
 
 import (
+	"encoding/json"
 	"fmt"
 )
 
@@ -28,6 +29,17 @@ func Init(v interface{}) *DMap {
 	}
 }
 
+// InitJSONBytes returns a new dmap with the JSON bytes unmarshaled.
+func InitJSONBytes(jsonBytes []byte) (*DMap, error) {
+	var v interface{}
+	err := json.Unmarshal(jsonBytes, &v)
+	if err != nil {
+		return nil, err
+	}
+
+	return &DMap{data: v}, nil
+}
+
 // Data returns the data stored by the dmap.
 func (d *DMap) Data() interface{} {
 	return d.data
@@ -49,13 +61,11 @@ func (d *DMap) Get(path ...interface{}) (*DMap, error) {
 	for i, p := range path {
 		if data, ok := currentData.(map[string]interface{}); ok {
 			key, ok := p.(string)
-
 			if !ok {
 				return nil, fmt.Errorf(errorExpectedKey, p, p, path[:i+1])
 			}
 
 			v, ok := data[key]
-
 			if !ok {
 				return nil, fmt.Errorf(errorKeyNotFound, key, path[:i+1])
 			}
@@ -64,7 +74,6 @@ func (d *DMap) Get(path ...interface{}) (*DMap, error) {
 
 		} else if data, ok := currentData.(map[interface{}]interface{}); ok {
 			v, ok := data[p]
-
 			if !ok {
 				return nil, fmt.Errorf(errorKeyNotFound, p, path[:i+1])
 			}
@@ -73,7 +82,6 @@ func (d *DMap) Get(path ...interface{}) (*DMap, error) {
 
 		} else if data, ok := currentData.([]interface{}); ok {
 			index, ok := p.(int)
-
 			if !ok {
 				return nil, fmt.Errorf(errorExpectedIndex, p, p, path[:i+1])
 			}
@@ -101,13 +109,11 @@ func (d *DMap) Exists(path ...interface{}) bool {
 // GetMapSI returns the data at a given path as map[string]interface{}.
 func (d *DMap) GetMapSI(path ...interface{}) (map[string]interface{}, error) {
 	data, err := d.Get(path...)
-
 	if err != nil {
 		return nil, err
 	}
 
 	dataMapSI, ok := data.Data().(map[string]interface{})
-
 	if !ok {
 		return nil, fmt.Errorf(errorNotMapSI, path)
 	}
@@ -118,13 +124,11 @@ func (d *DMap) GetMapSI(path ...interface{}) (map[string]interface{}, error) {
 // GetMapII returns the data at a given path as map[interface{}]interface{}.
 func (d *DMap) GetMapII(path ...interface{}) (map[interface{}]interface{}, error) {
 	data, err := d.Get(path...)
-
 	if err != nil {
 		return nil, err
 	}
 
 	dataMapII, ok := data.Data().(map[interface{}]interface{})
-
 	if !ok {
 		return nil, fmt.Errorf(errorNotMapII, path)
 	}
@@ -135,13 +139,11 @@ func (d *DMap) GetMapII(path ...interface{}) (map[interface{}]interface{}, error
 // GetSliceI returns the data at a given path as []interface{}.
 func (d *DMap) GetSliceI(path ...interface{}) ([]interface{}, error) {
 	data, err := d.Get(path...)
-
 	if err != nil {
 		return nil, err
 	}
 
 	dataSliceI, ok := data.Data().([]interface{})
-
 	if !ok {
 		return nil, fmt.Errorf(errorNotSliceI, path)
 	}
@@ -152,7 +154,6 @@ func (d *DMap) GetSliceI(path ...interface{}) ([]interface{}, error) {
 // SetMapSI sets data to a map[string]interface{} at a given path.
 func (d *DMap) SetMapSI(data interface{}, key string, path ...interface{}) error {
 	parent, err := d.GetMapSI(path...)
-
 	if err != nil {
 		return err
 	}
@@ -165,7 +166,6 @@ func (d *DMap) SetMapSI(data interface{}, key string, path ...interface{}) error
 // SetMapII sets data to a map[interface{}]interface{} at a given path.
 func (d *DMap) SetMapII(data interface{}, key interface{}, path ...interface{}) error {
 	parent, err := d.GetMapII(path...)
-
 	if err != nil {
 		return err
 	}
@@ -178,7 +178,6 @@ func (d *DMap) SetMapII(data interface{}, key interface{}, path ...interface{}) 
 // SetSliceI sets data to a []interface{} at a given path.
 func (d *DMap) SetSliceI(data interface{}, index int, path ...interface{}) error {
 	parent, err := d.GetSliceI(path...)
-
 	if err != nil {
 		return err
 	}
