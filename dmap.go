@@ -29,7 +29,7 @@ func Init(v interface{}) *DMap {
 	}
 }
 
-// InitJSONBytes returns a new dmap with the JSON bytes unmarshaled.
+// InitJSONBytes returns a new dmap with the JSON bytes unmarshalled.
 func InitJSONBytes(jsonBytes []byte) (*DMap, error) {
 	var v interface{}
 	err := json.Unmarshal(jsonBytes, &v)
