@@ -3,6 +3,7 @@ package dmap
 import (
 	"encoding/json"
 	"fmt"
+	"io"
 )
 
 var (
@@ -33,6 +34,18 @@ func Init(v interface{}) *DMap {
 func InitJSONBytes(jsonBytes []byte) (*DMap, error) {
 	var v interface{}
 	err := json.Unmarshal(jsonBytes, &v)
+	if err != nil {
+		return nil, err
+	}
+
+	return &DMap{data: v}, nil
+}
+
+// InitJSONBuffer retuns a new dmap with the JSON buffer unmarshalled.
+func InitJSONBuffer(jsonBuffer io.Reader) (*DMap, error) {
+	var v interface{}
+	decoder := json.NewDecoder(jsonBuffer)
+	err := decoder.Decode(&v)
 	if err != nil {
 		return nil, err
 	}
