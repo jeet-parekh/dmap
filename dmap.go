@@ -30,8 +30,8 @@ func Init(v interface{}) *DMap {
 	}
 }
 
-// InitJSONBytes returns a new dmap with the JSON bytes unmarshalled.
-func InitJSONBytes(jsonBytes []byte) (*DMap, error) {
+// ParseJSONBytes returns a new dmap with the JSON bytes unmarshalled.
+func ParseJSONBytes(jsonBytes []byte) (*DMap, error) {
 	var v interface{}
 	err := json.Unmarshal(jsonBytes, &v)
 	if err != nil {
@@ -41,8 +41,8 @@ func InitJSONBytes(jsonBytes []byte) (*DMap, error) {
 	return &DMap{data: v}, nil
 }
 
-// InitJSONBuffer retuns a new dmap with the JSON buffer unmarshalled.
-func InitJSONBuffer(jsonBuffer io.Reader) (*DMap, error) {
+// ParseJSONBuffer retuns a new dmap with the JSON buffer unmarshalled.
+func ParseJSONBuffer(jsonBuffer io.Reader) (*DMap, error) {
 	var v interface{}
 	decoder := json.NewDecoder(jsonBuffer)
 	err := decoder.Decode(&v)
