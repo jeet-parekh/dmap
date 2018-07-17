@@ -164,7 +164,7 @@ func (d *DMap) GetSliceI(path ...interface{}) ([]interface{}, error) {
 	return dataSliceI, nil
 }
 
-// SetMapSI sets data to a map[string]interface{} at a given path.
+// SetMapSI sets data to a map[string]interface{} at a given path. The path has to already exist - new keys or indices will not be added.
 func (d *DMap) SetMapSI(data interface{}, key string, path ...interface{}) error {
 	parent, err := d.GetMapSI(path...)
 	if err != nil {
@@ -176,7 +176,7 @@ func (d *DMap) SetMapSI(data interface{}, key string, path ...interface{}) error
 	return nil
 }
 
-// SetMapII sets data to a map[interface{}]interface{} at a given path.
+// SetMapII sets data to a map[interface{}]interface{} at a given path. The path has to already exist - new keys or indices will not be added.
 func (d *DMap) SetMapII(data interface{}, key interface{}, path ...interface{}) error {
 	parent, err := d.GetMapII(path...)
 	if err != nil {
@@ -188,7 +188,7 @@ func (d *DMap) SetMapII(data interface{}, key interface{}, path ...interface{}) 
 	return nil
 }
 
-// SetSliceI sets data to a []interface{} at a given path.
+// SetSliceI sets data to a []interface{} at a given path. The path has to already exist - new keys or indices will not be added.
 func (d *DMap) SetSliceI(data interface{}, index int, path ...interface{}) error {
 	parent, err := d.GetSliceI(path...)
 	if err != nil {
