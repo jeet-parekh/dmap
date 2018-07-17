@@ -1,5 +1,9 @@
 dmap is a Go library to handle dynamic objects.
 
+---
+
+### Example
+
 It has minimal functions to get and set `map[string]interface{}`, `map[interface{}]interface{}`, and `[]interface{}`.
 
 ```go
